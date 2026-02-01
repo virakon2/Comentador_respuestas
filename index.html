@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comentador de Respuestas IA</title>
+    <meta name="description" content="Herramienta interactiva para comentar y dar feedback sobre respuestas generadas por IA">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">💬</span>
+                <h1>Comentador IA</h1>
+            </div>
+            <p class="tagline">Proporciona feedback estructurado a las respuestas de IA</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Input Section -->
+            <section class="input-section" id="inputSection">
+                <div class="section-header">
+                    <h2>📥 Respuesta de la IA</h2>
+                    <span class="hint">Pega aquí la respuesta en texto plano o markdown</span>
+                </div>
+                <textarea 
+                    id="aiResponse" 
+                    placeholder="Pega aquí la respuesta de la IA que deseas comentar...
+
+Ejemplo de markdown:
+# Título
+Este es un **texto en negrita** y este es *cursiva*.
+
+- Lista item 1
+- Lista item 2
+
+```python
+def hello():
+    print('Hola mundo')
+```"
+                ></textarea>
+                <div class="input-actions">
+                    <button id="processBtn" class="btn btn-primary">
+                        <span class="btn-icon">⚡</span>
+                        Procesar y Renderizar
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <span class="btn-icon">🗑️</span>
+                        Limpiar
+                    </button>
+                </div>
+            </section>
+
+            <!-- Content Display Section -->
+            <section class="content-section hidden" id="contentSection">
+                <div class="section-header">
+                    <h2>📄 Contenido Renderizado</h2>
+                    <span class="hint">Selecciona texto para agregar comentarios</span>
+                    <button id="backToEdit" class="btn btn-ghost">
+                        <span class="btn-icon">✏️</span>
+                        Editar
+                    </button>
+                </div>
+                <div class="content-wrapper">
+                    <div id="renderedContent" class="rendered-content"></div>
+                </div>
+            </section>
+
+            <!-- Comments Panel -->
+            <aside class="comments-panel" id="commentsPanel">
+                <div class="panel-header">
+                    <h3>💭 Comentarios</h3>
+                    <span class="comment-count" id="commentCount">0</span>
+                </div>
+                <div class="comments-list" id="commentsList">
+                    <div class="empty-state">
+                        <span class="empty-icon">📝</span>
+                        <p>Aún no hay comentarios</p>
+                        <span class="empty-hint">Selecciona texto del contenido para agregar tu primer comentario</span>
+                    </div>
+                </div>
+                <div class="panel-actions">
+                    <button id="exportBtn" class="btn btn-export" disabled>
+                        <span class="btn-icon">📋</span>
+                        Exportar Feedback
+                    </button>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Comment Modal -->
+        <div class="modal-overlay hidden" id="commentModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Agregar Comentario</h3>
+                    <button class="modal-close" id="closeModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="selected-text-preview">
+                        <label>Texto seleccionado:</label>
+                        <blockquote id="selectedTextPreview"></blockquote>
+                    </div>
+                    <div class="comment-input-group">
+                        <label for="commentInput">Tu comentario:</label>
+                        <textarea 
+                            id="commentInput" 
+                            placeholder="Escribe tu feedback aquí..."
+                            rows="4"
+                        ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelComment" class="btn btn-secondary">Cancelar</button>
+                    <button id="saveComment" class="btn btn-primary">Guardar Comentario</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Modal -->
+        <div class="modal-overlay hidden" id="exportModal">
+            <div class="modal modal-large">
+                <div class="modal-header">
+                    <h3>📋 Feedback Exportado</h3>
+                    <button class="modal-close" id="closeExportModal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="exportedText" readonly></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button id="copyExport" class="btn btn-primary">
+                        <span class="btn-icon">📋</span>
+                        Copiar al Portapapeles
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Action Button for adding comment -->
+        <div class="fab hidden" id="addCommentFab">
+            <span>💬</span> Comentar selección
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
