@@ -331,6 +331,20 @@ textarea::placeholder {
     background: rgba(124, 58, 237, 0.5);
 }
 
+.highlighted-text::after {
+    content: "#" attr(data-index);
+    font-size: 0.7em;
+    vertical-align: super;
+    margin-left: 2px;
+    background: var(--accent-primary);
+    color: white;
+    padding: 0 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 1.2;
+}
+
 /* ===== Comments Panel ===== */
 .comments-panel {
     background: var(--bg-card);
